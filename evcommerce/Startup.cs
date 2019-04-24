@@ -37,6 +37,7 @@ namespace evcommerce
             services.Add(new ServiceDescriptor(typeof(CategoryContext), new CategoryContext(Configuration.GetConnectionString("DefaultConnection"))));
             services.Add(new ServiceDescriptor(typeof(ItemContext), new ItemContext(Configuration.GetConnectionString("DefaultConnection"))));
             services.Add(new ServiceDescriptor(typeof(SubCategoryContext), new SubCategoryContext(Configuration.GetConnectionString("DefaultConnection"))));
+            services.Add(new ServiceDescriptor(typeof(BasketContext), new BasketContext(Configuration.GetConnectionString("DefaultConnection"))));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +62,7 @@ namespace evcommerce
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Categories}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

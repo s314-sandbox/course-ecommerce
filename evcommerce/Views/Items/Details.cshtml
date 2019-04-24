@@ -49,5 +49,10 @@
     </dl>
 </div>
 <div>
+    <form asp-controller="Basket" asp-action="Add" method="post">
+        <input type="hidden" asp-for="Id" value=@Model.Id />
+        <input type="number" name="amount" value="1" min="1" max="10" />
+        <input type="submit" value="Добавить в корзину" class="btn btn-primary" />
+    </form>
     <a asp-action="Index" asp-route-category=@Model.Category>Back to List</a>
 </div>
