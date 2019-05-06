@@ -35,7 +35,7 @@ namespace evcommerce.Controllers
                 User user = db.GetUser(model.Login, model.Password);
                 if (user != null)
                 {
-                    await Authenticate(model.Login);
+                    await Authenticate(model.Login, user.IsAdmin);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -72,7 +72,7 @@ namespace evcommerce.Controllers
                         IsAdmin = false
                     });
 
-                    await Authenticate(model.Login); // аутентификация
+                    await Authenticate(model.Login, false); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -83,12 +83,15 @@ namespace evcommerce.Controllers
         }
 
 
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(string userName, bool admin)
         {
+            string role = "user";
+            if (admin) role = "admin";
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

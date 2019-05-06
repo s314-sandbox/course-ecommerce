@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using evcommerce.Models;
 
 namespace evcommerce.Controllers
 {
     public class BasketController : Controller
     {
+        [Authorize]
         [HttpGet]
         public IActionResult Index(int user) // TODO: Remove user hardcode
         {
@@ -22,6 +24,7 @@ namespace evcommerce.Controllers
         }
 
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Add([Bind(include: "Id")] Item item, int amount)
@@ -37,6 +40,7 @@ namespace evcommerce.Controllers
         }
 
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id, int amount)
