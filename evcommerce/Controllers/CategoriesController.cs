@@ -14,7 +14,10 @@ namespace evcommerce.Controllers
     {
         public IActionResult Index()
         {
-            ViewData["Role"] = ClaimsIdentity.DefaultRoleClaimType;
+            if (((ClaimsIdentity)User.Identity).HasClaim(ClaimsIdentity.DefaultRoleClaimType, "admin"))
+                ViewData["Role"] = "admin";
+            else
+                ViewData["Role"] = "user";
             CategoryContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.CategoryContext)) as CategoryContext;
 
             return View(context.GetAllCategories());

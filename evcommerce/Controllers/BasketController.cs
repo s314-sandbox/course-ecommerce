@@ -13,12 +13,13 @@ namespace evcommerce.Controllers
     {
         [Authorize]
         [HttpGet]
-        public IActionResult Index(int user) // TODO: Remove user hardcode
+        public IActionResult Index()
         {
-
+            UserContext userContext = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.UserContext)) as UserContext;
             BasketContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.BasketContext)) as BasketContext;
-            IEnumerable<evcommerce.Models.BasketPositionView> basketPositions = context.GetAllPositionsByUser(user);
-            ViewBag.totalCost = basketPositions.Sum(p => p.Cost);
+            User user = userContext.GetUser(User.Identity.Name);
+            IEnumerable<evcommerce.Models.BasketPositionView> basketPositions = context.GetAllPositionsByUser(user.Id);
+            ViewBag.totalCost = basketPositions.Sum(p => p.Cost * p.Amount);
 
             return View(basketPositions);
         }

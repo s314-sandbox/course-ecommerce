@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using evcommerce.Models;
 
@@ -17,6 +18,26 @@ namespace evcommerce.Controllers
         public AccountController(UserContext context)
         {
             db = context;
+        }
+
+
+        [Authorize]
+        public IActionResult Details()
+        {
+            UserContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.UserContext)) as UserContext;
+            AdressContext adressContext = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.AdressContext)) as AdressContext;
+
+            User user = context.GetUser(User.Identity.Name);
+            AccountDetailsModel viewModel = new AccountDetailsModel();
+
+            viewModel.Name = user.Name;
+            viewModel.Surname = user.Surname;
+            viewModel.Phone = user.Phone;
+            viewModel.Mail = user.Mail;
+            viewModel.Login = user.Login;
+            viewModel.AdressListModel = adressContext.GetAllAdressesByUser(user.Id);
+
+            return View(viewModel);
         }
 
         [HttpGet]
