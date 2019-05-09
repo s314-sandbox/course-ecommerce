@@ -113,6 +113,27 @@ namespace evcommerce.Models
         }
 
 
+        public void UpdateUser(User user)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                string query = "UPDATE `mydb`.`user` SET `User_name` = @name, `User_surname` = @surname, `User_phone` = @phone, `User_mail` = @mail WHERE `Id_user` = @id";
+
+                MySqlCommand command = new MySqlCommand(query, conn);
+
+                command.Parameters.Add("@id", MySqlDbType.UInt16, 11).Value = user.Id;
+                command.Parameters.Add("@name", MySqlDbType.VarChar, 45).Value = user.Name;
+                command.Parameters.Add("@surname", MySqlDbType.VarChar, 45).Value = user.Surname;
+                command.Parameters.Add("@phone", MySqlDbType.VarChar, 45).Value = user.Phone;
+                command.Parameters.Add("@mail", MySqlDbType.VarChar, 45).Value = user.Mail;
+
+                conn.Open();
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+
         private MySqlConnection GetConnection()
         {
             return new MySqlConnection(ConnectionString);

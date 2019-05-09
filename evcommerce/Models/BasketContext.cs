@@ -47,7 +47,7 @@ namespace evcommerce.Models
         }
 
 
-        public void AddPosition(Item item, int amount)
+        public void AddPosition(Item item, int amount, int user_id)
         {
 
 
@@ -57,7 +57,7 @@ namespace evcommerce.Models
 
                 MySqlCommand command = new MySqlCommand(query, conn);
 
-                command.Parameters.Add("@user", MySqlDbType.UInt32).Value = 1; // TODO: Remove hardcoded user by implementing login/sign up m.
+                command.Parameters.Add("@user", MySqlDbType.UInt32).Value = user_id;
                 command.Parameters.Add("@item", MySqlDbType.UInt32).Value = item.Id;
                 command.Parameters.Add("@amount", MySqlDbType.UInt32).Value = amount;
 
@@ -115,8 +115,42 @@ namespace evcommerce.Models
             return list;
         }
 
+        public List<Basket> GetBasketContentByUser(int? user)
+        {
+            List<Basket> list = new List<Basket>();
 
-        public void RemovePosition(int? id)
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                MySqlCommand command = new MySqlCommand(
+                                                        @"SELECT * FROM basket b
+
+                                                        WHERE b.Basket_user = @user;",
+                                                        conn
+                                                        );
+
+                command.Parameters.Add("@user", MySqlDbType.UInt16, 11).Value = user;
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Basket()
+                        {
+                            Id = Convert.ToInt32(reader["Id_basket"]),
+                            ItemId = Convert.ToInt32(reader["Basket_item"]),
+                            UserId = Convert.ToInt32(reader["Basket_user"]),
+                            Amount = Convert.ToInt32(reader["Basket_amount"]),
+                        });
+                    }
+                }
+            }
+
+            return list;
+        }
+
+
+        public void RemovePosition(int? id, int user_id)
         {
             using (MySqlConnection conn = GetConnection())
             {
@@ -125,7 +159,7 @@ namespace evcommerce.Models
                 MySqlCommand command = new MySqlCommand(query, conn);
 
                 command.Parameters.Add("@id", MySqlDbType.UInt16, 11).Value = id;
-                command.Parameters.Add("@user", MySqlDbType.UInt32).Value = 1; // TODO: Remove hardcoded user by implementing login/sign up m.
+                command.Parameters.Add("@user", MySqlDbType.UInt32).Value = user_id;
 
                 conn.Open();
                 command.ExecuteNonQuery();

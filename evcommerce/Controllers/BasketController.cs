@@ -30,11 +30,13 @@ namespace evcommerce.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Add([Bind(include: "Id")] Item item, int amount)
         {
+            UserContext userContext = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.UserContext)) as UserContext;
+            User user = userContext.GetUser(User.Identity.Name);
 
             if (ModelState.IsValid)
             {
                 BasketContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.BasketContext)) as BasketContext;
-                context.AddPosition(item, amount);
+                context.AddPosition(item, amount, user.Id);
                 return Redirect(Request.Headers["Referer"].ToString());
             }
             return RedirectToAction("Index");
@@ -46,11 +48,13 @@ namespace evcommerce.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id, int amount)
         {
+            UserContext userContext = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.UserContext)) as UserContext;
+            User user = userContext.GetUser(User.Identity.Name);
 
             if (ModelState.IsValid)
             {
                 BasketContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.BasketContext)) as BasketContext;
-                context.RemovePosition(id);
+                context.RemovePosition(id, user.Id);
                 return Redirect(Request.Headers["Referer"].ToString());
             }
             return RedirectToAction("Index");

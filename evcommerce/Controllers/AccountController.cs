@@ -26,6 +26,7 @@ namespace evcommerce.Controllers
         {
             UserContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.UserContext)) as UserContext;
             AdressContext adressContext = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.AdressContext)) as AdressContext;
+            OrderInfoContext infoContext = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.OrderInfoContext)) as OrderInfoContext;
 
             User user = context.GetUser(User.Identity.Name);
             AccountDetailsModel viewModel = new AccountDetailsModel();
@@ -36,6 +37,7 @@ namespace evcommerce.Controllers
             viewModel.Mail = user.Mail;
             viewModel.Login = user.Login;
             viewModel.AdressListModel = adressContext.GetAllAdressesByUser(user.Id);
+            viewModel.OrderInfoEntryModel = infoContext.GetOrdersOfUser(user.Id);
 
             return View(viewModel);
         }
@@ -101,6 +103,50 @@ namespace evcommerce.Controllers
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
+        }
+
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            UserContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.UserContext)) as UserContext;
+            User user = context.GetUser(User.Identity.Name);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            AccountEditModel editModel = new AccountEditModel();
+            editModel.Name = user.Name;
+            editModel.Surname = user.Surname;
+            editModel.Phone = user.Phone;
+            editModel.Mail = user.Mail;
+
+            return View(editModel);
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([Bind]AccountEditModel editModel)
+        {
+            if (ModelState.IsValid)
+            {
+                UserContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.UserContext)) as UserContext;
+
+                User user = context.GetUser(User.Identity.Name);
+                user.Name = editModel.Name;
+                user.Surname = editModel.Surname;
+                user.Phone = editModel.Phone;
+                user.Mail = editModel.Mail;
+
+                context.UpdateUser(user);
+                return RedirectToAction("Details");
+            }
+            return View(editModel);
         }
 
 

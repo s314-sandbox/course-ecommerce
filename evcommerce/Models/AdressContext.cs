@@ -24,7 +24,7 @@ namespace evcommerce.Models
             {
                 conn.Open();
                 MySqlCommand command = new MySqlCommand(
-                                                        @"SELECT Country_name, Address_city, Address_street, Address_house,
+                                                        @"SELECT Id_address, Country_name, Address_city, Address_street, Address_house,
 	                                                      Address_flat, Address_info                       
                                                           FROM mydb.addresses a
 
@@ -43,6 +43,7 @@ namespace evcommerce.Models
                     {
                         list.Add(new AdressListModel()
                         {
+                            Id = Convert.ToInt32(reader["Id_address"]),
                             Country = reader["Country_name"].ToString(),
                             City = reader["Address_city"].ToString(),
                             Street = reader["Address_street"].ToString(),
