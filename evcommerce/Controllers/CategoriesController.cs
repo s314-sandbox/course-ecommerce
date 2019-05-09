@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using evcommerce.Models;
 
 namespace evcommerce.Controllers
@@ -12,6 +14,10 @@ namespace evcommerce.Controllers
     {
         public IActionResult Index()
         {
+            if (((ClaimsIdentity)User.Identity).HasClaim(ClaimsIdentity.DefaultRoleClaimType, "admin"))
+                ViewData["Role"] = "admin";
+            else
+                ViewData["Role"] = "user";
             CategoryContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.CategoryContext)) as CategoryContext;
 
             return View(context.GetAllCategories());

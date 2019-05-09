@@ -1,0 +1,110 @@
+﻿@model evcommerce.Models.OrderInfoEntryModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Заказ</h1>
+
+<div>
+    <h4>Данные о заказе</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Payment)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Delivery)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Delivery)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+    </dl>
+</div>
+
+<br />
+
+<h4>Содержание заказа</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название
+            </th>
+            <th>
+                Артикул
+            </th>
+            <th>
+                Подкатегория
+            </th>
+            <th>
+                Категория
+            </th>
+            <th>
+                Поставщик
+            </th>
+            <th>
+                Количество
+            </th>
+            <th>
+                Цена
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderedItemModel)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VendorCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Provider)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h4>Итоговая сумма: @ViewBag.TotalCost.ToString()</h4>
+
+    <div>
+        <a asp-action="Details" asp-controller="Account">Вернуться к списку заказов</a>
+    </div>

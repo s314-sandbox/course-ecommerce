@@ -1,14 +1,12 @@
 ﻿@model IEnumerable<evcommerce.Models.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Каталог товаров";
 }
 
-<h1>Index</h1>
+<h1>Каталог товаров</h1>
+<h2>Категории</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -18,7 +16,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -30,12 +27,7 @@
             <td>
                 @Html.ActionLink(item.Name, "Index", "SubCategories", new { parent = item.Id })
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-}
-    </tbody>
+                </tr>
+            }
+</tbody>
 </table>
