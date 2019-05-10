@@ -54,3 +54,31 @@ body {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.piltover {
+    background: url("../images/piltover_splash.jpg") no-repeat center center;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+
+.cyrodiil {
+    background: url("../images/LrNOpeO.jpg") no-repeat center center;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+
+.tirit {
+    background: url("../images/87626_6385_minas-tirit.jpg") no-repeat center center;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+
+.special-card {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+}

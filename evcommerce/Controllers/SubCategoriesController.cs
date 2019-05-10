@@ -12,7 +12,10 @@ namespace evcommerce.Controllers
         [HttpGet]
         public IActionResult Index(int? parent)
         {
+            CategoryContext categoryContext = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.CategoryContext)) as CategoryContext;
             SubCategoryContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.SubCategoryContext)) as SubCategoryContext;
+
+            ViewBag.ParentName = categoryContext.GetCategory(parent).Name;
 
             return View(context.GetAllSubCategories(parent));
         }

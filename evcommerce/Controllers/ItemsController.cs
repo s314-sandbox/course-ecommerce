@@ -32,7 +32,7 @@ namespace evcommerce.Controllers
             }
 
             ItemContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.ItemContext)) as ItemContext;
-            Item item = context.GetItem(id);
+            ItemListViewModel item = context.GetItemInfo(id);
             if (item == null)
             {
                 return NotFound();

@@ -7,27 +7,10 @@
 <h1>Каталог товаров</h1>
 <h2>Категории</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.ActionLink(item.Name, "Index", "SubCategories", new { parent = item.Id })
-            </td>
-                </tr>
-            }
-</tbody>
-</table>
+<br />
+
+@foreach (var item in Model)
+{
+    @Html.ActionLink(item.Name, "Index", "SubCategories", new { parent = item.Id }, new { @class = "btn btn-outline-info btn-lg btn-block" })
+}
+
