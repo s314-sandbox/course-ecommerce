@@ -71,8 +71,28 @@ namespace evcommerce.Controllers
                     });
 
                     // Add order for each basket items
+                    StorageContext storageContext = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.StorageContext)) as StorageContext;
+
+                    bool notAvailable = false;
                     foreach (Basket item in basketItems)
                     {
+                        Storage itemStorage = storageContext.GetStorage(item.ItemId);
+                        
+                        if (itemStorage != null && itemStorage.Amount > item.Amount)
+                        {
+                            itemStorage.Amount -= item.Amount;
+                            if (itemStorage.Amount < 0)
+                            {
+                                notAvailable = true;
+                                itemStorage.Amount = 0;
+                            }
+                            storageContext.UpdateStorage(itemStorage);
+                        }
+                        else
+                        {
+                            notAvailable = true;
+                        }
+
                         orderContext.AddOrderedItem(new Order
                         {
                             OrderInfoId = lastId,
@@ -86,7 +106,12 @@ namespace evcommerce.Controllers
                         basketContext.RemovePosition(item.Id, user.Id);
                     }
 
-                    return RedirectToAction("Index", "Home");
+                    if (notAvailable)
+                        TempData["WarningMessage"] = "Заказ оформлен! К сожалению, некоторые товары в данный момент отсутствуют на складе. Это ненамного увеличит время доставки. Приносим извинения за неудобства.";
+                    else
+                        TempData["UserMessage"] = "Заказ успешно оформлен!";
+
+                    return RedirectToAction("Details", "Account");
                 }
                 else
                     ModelState.AddModelError("", "Корзина пуста");

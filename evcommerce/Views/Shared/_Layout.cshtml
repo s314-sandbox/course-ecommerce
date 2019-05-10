@@ -73,6 +73,20 @@
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
+            @if (TempData["UserMessage"] != null)
+            {
+                var message = TempData["UserMessage"];
+                <div class="alert alert-info">
+                    @message
+                </div>
+            }
+            @if (TempData["WarningMessage"] != null)
+            {
+                var warning = TempData["WarningMessage"];
+                <div class="alert alert-warning">
+                    @warning
+                </div>
+            }
             @RenderBody()
         </main>
     </div>

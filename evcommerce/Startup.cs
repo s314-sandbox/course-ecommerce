@@ -52,6 +52,7 @@ namespace evcommerce
             services.Add(new ServiceDescriptor(typeof(PaymentContext), new PaymentContext(Configuration.GetConnectionString("DefaultConnection"))));
             services.Add(new ServiceDescriptor(typeof(OrderInfoContext), new OrderInfoContext(Configuration.GetConnectionString("DefaultConnection"))));
             services.Add(new ServiceDescriptor(typeof(OrderContext), new OrderContext(Configuration.GetConnectionString("DefaultConnection"))));
+            services.Add(new ServiceDescriptor(typeof(StorageContext), new StorageContext(Configuration.GetConnectionString("DefaultConnection"))));
 
         }
 

@@ -54,4 +54,43 @@
     </p>
 
     @Html.ActionLink("Перейти в каталог товаров", "Index", "Categories", null, new { @class = "btn btn-primary btn-lg btn-block active" })
+
+</div>
+
+<br />
+
+<div class="jumbotron cyrodiil">
+    <div class="jumbotron special-card">
+    <h1 class="display-4 text-light">Сиродильские клинки</h1>
+    <p class="lead text-light">Имперская провинция славится мастерами на все руки. Но больше всего внимание привлекают древние эльфийские клинки, которые можно найти в айлейдских руинах. Нет нужды рисковать, если подобный клинок всегда можно найти у нас!</p>
+    </div>
+        <hr class="my-4">
+
+    <p class="lead">
+        @Html.ActionLink("Узнать больше", "Index", "Items", new { category = 4 }, new { @class = "btn btn-outline-light btn-lg" })
+    </p>
+</div>
+
+<br />
+
+<div class="jumbotron piltover">
+    <div class="jumbotron special-card">
+        <h1 class="display-4 text-light">Мушкеты из Пилтовера</h1>
+        <p class="lead text-light">Мастера хекстекового ремесла из города технологий представляют свои новейшие разработки. Ограниченная серия товаров из Пилтовера!</p>
+    </div>
+        <hr class="my-4">
+        <p class="lead">
+            @Html.ActionLink("Узнать больше", "Index", "Items", new { category = 47 }, new { @class = "btn btn-outline-light btn-lg" })
+        </p>
+    </div>
+
+<div class="jumbotron tirit">
+    <div class="jumbotron special-card">
+        <h1 class="display-4 text-light">Гондорские щиты</h1>
+        <p class="lead text-light">Надежные щиты из самого Гондора! Великое королевство людей из Средиземья представляет великолепную партию щитов, выдерживающих самые тяжелые удары. Не упустите!</p>
+    </div>
+    <hr class="my-4">
+    <p class="lead">
+        @Html.ActionLink("Узнать больше", "Index", "Items", new { category = 47 }, new { @class = "btn btn-outline-light btn-lg" })
+    </p>
 </div>

@@ -37,6 +37,7 @@ namespace evcommerce.Controllers
             {
                 BasketContext context = HttpContext.RequestServices.GetService(typeof(evcommerce.Models.BasketContext)) as BasketContext;
                 context.AddPosition(item, amount, user.Id);
+                TempData["UserMessage"] = "Товар в количестве " + amount + " был добавлен в корзину";
                 return Redirect(Request.Headers["Referer"].ToString());
             }
             return RedirectToAction("Index");
